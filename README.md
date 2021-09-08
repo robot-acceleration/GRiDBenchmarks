@@ -7,7 +7,7 @@ GRiDBenchmarks uses our [GRiD](https://github.com/robot-acceleration/GRiD) libra
 **This package contains submodules make sure to run ```git submodule update --init --recursive```** after cloning!
 
 ## Usage and API:
-+ To run benchmarking on the packages please run:
++ To run benchmarking on the packages please first set the CPU frequency to the maximum with ```setCPU.sh``` then run:
   1) ```timePinocchio.py URDF_PATH``` to compile and run CPU timing. Note that this only needs to compile once and will therefore run faster for additional URDFs.
   2) ```timeGRiD.py URDF_PATH``` to generate, compile, and run GPU timing.
 + If you would like to ensure that both packages are equivalent for your ```URDF``` set the variable ```TEST_FOR_EQUIVALENCE = 1``` in ```uitl/experiment_helpers.h``` and re-run the benchmarking (make sure to delete the ```timePinocchio.exe``` file before and after doing this as it needs to be re-compiled). This will print out the computed values by both packages for your robot.
