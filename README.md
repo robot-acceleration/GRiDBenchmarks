@@ -1,6 +1,6 @@
 # GRiDBenchmarks
 
-Provides the benchmark experiments for the paper ["GRiD: GPU Accelerated Rigid Body Dynamics with Analytical Gradients"](https://brianplancher.com/publication/GRiD/)
+Provides the benchmark experiments for the paper ["GRiD: GPU-Accelerated Rigid Body Dynamics with Analytical Gradients"](https://brianplancher.com/publication/GRiD/)
 ```
 @misc{plancher2021GRiD,
   author={B. {Plancher} and S. M. {Neuman} and R. {Ghosal} and S. {Kuindersma} and V. {Janapa Reddi}},
