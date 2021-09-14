@@ -1,6 +1,14 @@
 # GRiDBenchmarks
 
 Provides the benchmark experiments for the paper ["GRiD: GPU Accelerated Rigid Body Dynamics with Analytical Gradients"](https://brianplancher.com/publication/GRiD/)
+```
+@misc{plancher2021GRiD,
+  author={B. {Plancher} and S. M. {Neuman} and R. {Ghosal} and S. {Kuindersma} and V. {Janapa Reddi}},
+  title={GRiD: GPU-Accelerated Rigid Body Dynamics with Analytical Gradients},
+  year={2021},
+  archivePrefix={arXiv}
+}
+```
 
 GRiDBenchmarks uses our [GRiD](https://github.com/robot-acceleration/GRiD) library and benchmarks it against [Pinocchio](https://github.com/stack-of-tasks/pinocchio/tree/pinocchio3-preview)'s pinocchio3-preview branch.
 
@@ -11,6 +19,25 @@ GRiDBenchmarks uses our [GRiD](https://github.com/robot-acceleration/GRiD) libra
   1) ```timePinocchio.py URDF_PATH``` to compile and run CPU timing. Note that this only needs to compile once and will therefore run faster for additional URDFs.
   2) ```timeGRiD.py URDF_PATH``` to generate, compile, and run GPU timing.
 + If you would like to ensure that both packages are equivalent for your ```URDF``` set the variable ```TEST_FOR_EQUIVALENCE = 1``` in ```uitl/experiment_helpers.h``` and re-run the benchmarking (make sure to delete the ```timePinocchio.exe``` file before and after doing this as it needs to be re-compiled). This will print out the computed values by both packages for your robot.
+
+## Benchmark Results
+When performing multiple computations of rigid body dynamics algorithms, GRiD provides as much as a 7.6x speedup over a state-of-the-art, multi-threaded CPU implementation, and maintains as much as a 2.6x speedup when accounting for I/O overhead. 
+
+![Latency (including GPU I/O overhead) for N = 16, 32, 64, 128, and 256 computations of the gradient of forward dynamics for both the Pinocchio CPU baseline and the GRiD GPU library for various robot models (IIWA, HyQ, and Atlas). Overlayed is the speedup (or slowdown) of GRiD as compared to Pinocchio both in terms of pure computation and including I/O overhead.](imgs/benchmark_multi_fd_grad.png)
+
+We also find that the GPU is able to scale to more complex robots and algorithms better than the CPU by taking advantage of fine-grained parallelism induced by independent robot limbs and the independent columns of gradient computations.
+
+![The scaling of single computation latency from IIWA to HyQ and IIWA to Atlas for both the Pinocchio CPU baseline and the GRiD GPU library for various rigid body dynamics algorithms (ID = Inverse Dynamics, Minv = Direct Minv, FD = Forward Dynamics and ∇ indicates the gradient of that algorithm). We also plot the scaling of the robot's dof as a measure of their increased complexity.](imgs/benchmark_single_scaling.png)
+
+Below you will also find the single computation latency in microseconds per algorithm and robot (ID = Inverse Dynamics, Minv = Direct Minv, FD = Forward Dynamics and ∇ indicates the gradient of that algorithm).
+
+| Algorithm | IIWA - CPU | HyQ - CPU | Atlas - CPU | IIWA - GPU | HyQ - GPU | Atlas - GPU |
+|-----------|------------|-----------|-------------|------------|-----------|-------------|
+| ID        | 0.2        | 0.3       | 1.1         | 3.0        | 3.2       | 8.0         |
+| Minv      | 0.5        | 0.7       | 3.2         | 5.2        | 5.6       | 17.4        |
+| FD        | 0.9        | 1.2       | 5.3         | 7.7        | 6.9       | 22.4        |
+| ∇ID       | 1.4        | 2.1       | 10.0        | 6.3        | 5.8       | 19.5        |
+| ∇FD       | 2.5        | 3.8       | 22.7        | 12.9       | 11.0      | 42.1        |
 
 ## Instalation Instructions:
 ### Install Python Dependencies
