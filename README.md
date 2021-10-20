@@ -114,7 +114,7 @@ export CPLUS_INCLUDE_PATH=/opt/openrobots/include:$CPLUS_INCLUDE_PATH
 cd ~/Downloads
 git clone https://github.com/coin-or/CppAD.git
 cd CppAD
-git fetch && checkout -q 83e249ec7819224138f35aaba564e2b977fb0078
+git fetch && git checkout -q 83e249ec7819224138f35aaba564e2b977fb0078
 mkdir build && cd build
 cmake ..
 sudo make install
