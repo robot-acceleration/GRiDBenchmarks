@@ -95,7 +95,7 @@ sudo ln -s /usr/local/include/eigen3/unsupported /usr/local/include/unsupported
 sudo sh -c "echo 'deb [arch=amd64] http://robotpkg.openrobots.org/packages/debian/pub $(lsb_release -cs) robotpkg' >> /etc/apt/sources.list.d/robotpkg.list"
 curl http://robotpkg.openrobots.org/packages/debian/robotpkg.key | sudo apt-key add -
 sudo apt-get update
-sudo -y install robotpkg-py38-eigenpy
+sudo apt-get install -y robotpkg-py38-eigenpy
 ```
 **Add the following to ```~/.bashrc```**
 ```
