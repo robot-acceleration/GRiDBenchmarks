@@ -47,7 +47,7 @@ Below you will also find the single computation latency in microseconds per algo
 ### Install Python Dependencies
 In order to support the wrapped packages there are 4 required external packages ```beautifulsoup4, lxml, numpy, sympy``` which can be automatically installed by running:
 ```shell
-pip3 install -r requirements.txt
+pip3 install -r GRiD/requirements.txt
 ```
 ### Install Dependencies for the Various Packages
 ```

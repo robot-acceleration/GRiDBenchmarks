@@ -80,7 +80,7 @@ void forwardDynamicsThreaded_codegen_inner(CodeGenMinv<double> *minv_code_gen, C
         minv_code_gen->Minv.template triangularView<Eigen::StrictlyLower>() = 
             minv_code_gen->Minv.transpose().template triangularView<Eigen::StrictlyLower>();
         rnea_code_gen->evalFunction(qs[k],qds[k],zeros);
-        qdds[k] = minv_code_gen->Minv*(us[k] - rnea_code_gen->res);
+        qdds[k].noalias() = minv_code_gen->Minv*(us[k] - rnea_code_gen->res);
     }
 }
 
@@ -131,8 +131,8 @@ void forwardDynamicsGradientThreaded_codegen_inner(CodeGenRNEADerivatives<double
         rnea_code_gen->evalFunction(qs[k],qds[k],zeros);
         VectorXd qdd = minv_code_gen->Minv*(us[k] - rnea_code_gen->res);
         rnea_derivatives_code_gen->evalFunction(qs[k],qds[k],qdd);
-        dqdd_dqs[k] = -(minv_code_gen->Minv)*(rnea_derivatives_code_gen->dtau_dq);
-        dqdd_dvs[k] = -(minv_code_gen->Minv)*(rnea_derivatives_code_gen->dtau_dv);
+        dqdd_dqs[k].noalias() = -(minv_code_gen->Minv)*(rnea_derivatives_code_gen->dtau_dq);
+        dqdd_dvs[k].noalias() = -(minv_code_gen->Minv)*(rnea_derivatives_code_gen->dtau_dv);
     }
 }
 
@@ -272,7 +272,7 @@ void test(std::string urdf_filepath){
                 minv_code_gen.Minv.template triangularView<Eigen::StrictlyLower>() = 
                     minv_code_gen.Minv.transpose().template triangularView<Eigen::StrictlyLower>();
                 rnea_code_gen.evalFunction(qs[0],qds[0],zeros);
-                qdds[0] = minv_code_gen.Minv*(us[0] - rnea_code_gen.res);
+                qdds[0].noalias() = minv_code_gen.Minv*(us[0] - rnea_code_gen.res);
             }
             clock_gettime(CLOCK_MONOTONIC,&end);
             printf("FD codegen %fus\n",time_delta_us_timespec(start,end)/static_cast<double>(TEST_ITERS));
@@ -285,13 +285,16 @@ void test(std::string urdf_filepath){
             printf("ID_DU codegen %fus\n",time_delta_us_timespec(start,end)/static_cast<double>(TEST_ITERS));
 
             clock_gettime(CLOCK_MONOTONIC,&start);
+            VectorXd zeros = VectorXd::Zero(nv);
             for(int i = 0; i < TEST_ITERS; i++){
                 minv_code_gen.evalFunction(qs[0]);
                 minv_code_gen.Minv.template triangularView<Eigen::StrictlyLower>() = 
                     minv_code_gen.Minv.transpose().template triangularView<Eigen::StrictlyLower>();
-                rnea_derivatives_code_gen.evalFunction(qs[0],qds[0],qdds[0]);
-                dqdd_dqs[0] = -minv_code_gen.Minv*rnea_derivatives_code_gen.dtau_dq;
-                dqdd_dvs[0] = -minv_code_gen.Minv*rnea_derivatives_code_gen.dtau_dv;
+                rnea_code_gen->evalFunction(qs[0],qds[0],zeros);
+                VectorXd qdd = minv_code_gen->Minv*(us[0] - rnea_code_gen->res);
+                rnea_derivatives_code_gen.evalFunction(qs[0],qds[0],qdd);
+                dqdd_dqs[0].noalias() = -minv_code_gen.Minv*rnea_derivatives_code_gen.dtau_dq;
+                dqdd_dvs[0].noalias() = -minv_code_gen.Minv*rnea_derivatives_code_gen.dtau_dv;
             }
             clock_gettime(CLOCK_MONOTONIC,&end);
             printf("FD_DU codegen %fus\n",time_delta_us_timespec(start,end)/static_cast<double>(TEST_ITERS));
