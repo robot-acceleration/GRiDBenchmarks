@@ -4,7 +4,7 @@ import subprocess
 import sys
 
 def main():
-    URDF_PATH, DEBUG_MODE = util.parseInputs()
+    URDF_PATH, DEBUG_MODE, _ = util.parseInputs()
     util.validateFile(URDF_PATH)
 
     if util.fileExists("timePinocchio.exe"):

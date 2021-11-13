@@ -8,13 +8,13 @@ import sys
 def main():
     inputs = util.parseInputs(NO_ARG_OPTION = True)
     if not inputs is None:
-        URDF_PATH, DEBUG_MODE = inputs
+        URDF_PATH, DEBUG_MODE, FILE_NAMESPACE_NAME = inputs
         parser = URDFParser()
         robot = parser.parse(URDF_PATH)
 
         util.validateRobot(robot, NO_ARG_OPTION = True)
 
-        codegen = GRiDCodeGenerator(robot,DEBUG_MODE,True)
+        codegen = GRiDCodeGenerator(robot,DEBUG_MODE,True, FILE_NAMESPACE = FILE_NAMESPACE_NAME)
         print("-----------------")
         print("Generating GRiD.cuh")
         print("-----------------")
