@@ -14,7 +14,7 @@ def main():
 
         util.validateRobot(robot, NO_ARG_OPTION = True)
 
-        codegen = GRiDCodeGenerator(robot,DEBUG_MODE,True, FILE_NAMESPACE = FILE_NAMESPACE_NAME)
+        codegen = GRiDCodeGenerator(robot, DEBUG_MODE, True, FILE_NAMESPACE = FILE_NAMESPACE_NAME)
         print("-----------------")
         print("Generating GRiD.cuh")
         print("-----------------")
