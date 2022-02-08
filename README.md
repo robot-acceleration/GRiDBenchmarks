@@ -2,13 +2,12 @@
 
 Provides the benchmark experiments for the paper ["GRiD: GPU-Accelerated Rigid Body Dynamics with Analytical Gradients"](https://brianplancher.com/publication/GRiD/)
 ```
-@misc{plancher2021grid,
-      title={GRiD: GPU-Accelerated Rigid Body Dynamics with Analytical Gradients}, 
-      author={Brian Plancher and Sabrina M. Neuman and Radhika Ghosal and Scott Kuindersma and Vijay Janapa Reddi},
-      year={2021},
-      eprint={2109.06976},
-      archivePrefix={arXiv},
-      primaryClass={cs.RO}
+@misc{plancher2022grid,
+  title={GRiD: GPU-Accelerated Rigid Body Dynamics with Analytical Gradients}, 
+  author={Brian Plancher and Sabrina M. Neuman and Radhika Ghosal and Scott Kuindersma and Vijay Janapa Reddi},
+  booktitle={IEEE International Conference on Robotics and Automation (ICRA)}, 
+  year={2022}, 
+  month={May}
 }
 ```
 
@@ -23,9 +22,9 @@ GRiDBenchmarks uses our [GRiD](https://github.com/robot-acceleration/GRiD) libra
 + If you would like to ensure that both packages are equivalent for your ```URDF``` set the variable ```TEST_FOR_EQUIVALENCE = 1``` in ```uitl/experiment_helpers.h``` and re-run the benchmarking (make sure to delete the ```timePinocchio.exe``` file before and after doing this as it needs to be re-compiled). This will print out the computed values by both packages for your robot.
 
 ## Benchmark Results
-All results were collected on a high-performance workstation with a 3.8GHz eight-core Intel Core i7-10700K CPU and a 1.44GHz NVIDIA GeForce GTX 3080 GPU running Ubuntu 20.04 and CUDA 11.4. For clean timing measurements on the CPU, we disabled TurboBoost and fixed the clock frequency to the maximum. Code was compiled with ```Clang 12``` and ```g++9.4```, and time was measured with the Linux system call ```clock_gettime()```, using ```CLOCK_MONOTONIC``` as the source.
+All results were collected on a high-performance workstation with a 3.8GHz eight-core Intel Core i7-10700K CPU and a 1.44GHz NVIDIA GeForce RTX 3080 GPU running Ubuntu 20.04 and CUDA 11.4. For clean timing measurements on the CPU, we disabled TurboBoost and fixed the clock frequency to the maximum. Code was compiled with ```Clang 12``` and ```g++9.4```, and time was measured with the Linux system call ```clock_gettime()```, using ```CLOCK_MONOTONIC``` as the source.
 
-When performing multiple computations of rigid body dynamics algorithms, GRiD provides as much as a 7.6x speedup over a state-of-the-art, multi-threaded CPU implementation, and maintains as much as a 2.6x speedup when accounting for I/O overhead. 
+When performing multiple computations of rigid body dynamics algorithms, GRiD provides as much as a 7.2x speedup over a state-of-the-art, multi-threaded CPU implementation, and maintains as much as a 2.5x speedup when accounting for I/O overhead. 
 
 ![Latency (including GPU I/O overhead) for N = 16, 32, 64, 128, and 256 computations of the gradient of forward dynamics for both the Pinocchio CPU baseline and the GRiD GPU library for various robot models (IIWA, HyQ, and Atlas). Overlayed is the speedup (or slowdown) of GRiD as compared to Pinocchio both in terms of pure computation and including I/O overhead.](imgs/benchmark_multi_fd_grad.png)
 
@@ -37,11 +36,11 @@ Below you will also find the single computation latency in microseconds per algo
 
 | Algorithm | IIWA - CPU | HyQ - CPU | Atlas - CPU | IIWA - GPU | HyQ - GPU | Atlas - GPU |
 |-----------|------------|-----------|-------------|------------|-----------|-------------|
-| ID        | 0.2        | 0.3       | 1.1         | 3.0        | 3.2       | 8.0         |
-| Minv      | 0.5        | 0.7       | 3.2         | 5.2        | 5.6       | 17.4        |
+| ID        | 0.3        | 0.3       | 1.1         | 3.0        | 3.2       | 8.0         |
+| Minv      | 0.5        | 0.8       | 3.4         | 5.2        | 5.6       | 17.4        |
 | FD        | 0.9        | 1.2       | 5.3         | 7.7        | 6.9       | 22.4        |
-| ∇ID       | 1.4        | 2.1       | 10.0        | 6.3        | 5.8       | 19.5        |
-| ∇FD       | 2.5        | 3.8       | 22.7        | 12.9       | 11.0      | 42.1        |
+| ∇ID       | 1.4        | 2.1       | 9.8         | 6.3        | 5.8       | 19.5        |
+| ∇FD       | 2.9        | 4.3       | 20.9        | 12.9       | 11.0      | 42.1        |
 
 ## Instalation Instructions:
 ### Install Python Dependencies
