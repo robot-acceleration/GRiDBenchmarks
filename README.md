@@ -2,7 +2,7 @@
 
 Provides the benchmark experiments for the paper ["GRiD: GPU-Accelerated Rigid Body Dynamics with Analytical Gradients"](https://brianplancher.com/publication/GRiD/)
 ```
-@misc{plancher2022grid,
+@inproceedings{plancher2022grid,
   title={GRiD: GPU-Accelerated Rigid Body Dynamics with Analytical Gradients}, 
   author={Brian Plancher and Sabrina M. Neuman and Radhika Ghosal and Scott Kuindersma and Vijay Janapa Reddi},
   booktitle={IEEE International Conference on Robotics and Automation (ICRA)}, 
