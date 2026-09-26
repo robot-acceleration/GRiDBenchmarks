@@ -1,3 +1,8 @@
+> # 📢 Project Archive Notice
+> This repository has been archived and represents the code from the [original GRiD paper](https://arxiv.org/abs/2109.06976). 
+> **Please do not open issues or pull requests here**. *Active maintenance, updates, and discussions have moved to the new official repository:*
+> **[A2R-Lab/GRiD](https://github.com/A2R-Lab/GRiD)**
+
 # GRiDBenchmarks
 
 Provides the benchmark experiments for the paper ["GRiD: GPU-Accelerated Rigid Body Dynamics with Analytical Gradients"](https://brianplancher.com/publication/GRiD/)
